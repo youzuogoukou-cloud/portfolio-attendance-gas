@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css" rel="stylesheet">
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #1a2233;
+        background: #eef2f7;
+      }
+      body {
+        margin: 0;
+        background: #eef2f7;
+      }
+      h1 {
+        margin: 0 0 2px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      h2 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      h2 .ti {
+        color: #2f6fed;
+        font-size: 19px;
+      }
+      .app {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      .header,
+      .card {
+        background: #fff;
+        border: 1px solid #e7edf5;
+        border-radius: 14px;
+        box-shadow: 0 1px 2px rgba(20, 40, 80, .04), 0 6px 18px rgba(20, 40, 80, .05);
+      }
+      .header {
+        padding: 18px;
+        margin-bottom: 14px;
+      }
+      .header p,
+      .card p {
+        color: #65758b;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        align-items: stretch;
+      }
+      .card {
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+        align-content: start;
+      }
+      .full {
+        grid-column: 1 / -1;
+      }
+      label {
+        display: grid;
+        gap: 5px;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #5a6b82;
+      }
+      input,
+      select,
+      textarea,
+      button {
+        font: inherit;
+      }
+      input,
+      select,
+      textarea {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 44px;
+        border: 1px solid #d9e1ee;
+        border-radius: 10px;
+        padding: 9px 11px;
+        background: #fbfcfe;
+        color: #1a2233;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #2f6fed;
+        box-shadow: 0 0 0 3px rgba(47, 111, 237, .14);
+      }
+      textarea {
+        min-height: 96px;
+        resize: vertical;
+      }
+      .fields {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .fields-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .fields-1 {
+        grid-template-columns: 1fr;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .actions button {
+        flex: 1 1 100%;
+      }
+      .actions button.secondary {
+        flex: 1 1 auto;
+        min-width: 120px;
+      }
+      button {
+        min-height: 46px;
+        border: 0;
+        border-radius: 10px;
+        padding: 0 16px;
+        font-weight: 600;
+        color: #fff;
+        background: #2f6fed;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+      }
+      button .ti {
+        font-size: 18px;
+      }
+      button:hover {
+        background: #2563eb;
+      }
+      button.secondary {
+        color: #1d4ed8;
+        background: #eef3fd;
+        border: 1px solid #d7e3fb;
+      }
+      button.secondary:hover {
+        background: #e2ecfc;
+      }
+      button.secondary.compact {
+        padding: 0 12px;
+        min-height: 44px;
+        white-space: nowrap;
+      }
+      button.danger {
+        background: #e0524f;
+      }
+      button.danger:hover {
+        background: #cf4542;
+      }
+      .input-with-button {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .input-with-button input {
+        flex: 1;
+        min-width: 0;
+      }
+      .picker-panel {
+        margin-top: 12px;
+        border: 1px solid #cfe0f3;
+        border-radius: 12px;
+        background: #f5f9ff;
+        padding: 12px;
+      }
+      .picker-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .picker-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-height: 260px;
+        overflow-y: auto;
+      }
+      .file-option {
+        text-align: left;
+        justify-content: flex-start;
+        background: #fff;
+        color: #1d3858;
+        border: 1px solid #cfe0f3;
+        height: auto;
+        min-height: 40px;
+        padding: 8px 12px;
+        border-radius: 8px;
+      }
+      .picker-empty {
+        margin: 4px 0;
+        color: #5a6b7d;
+      }
+      button:disabled {
+        opacity: .5;
+      }
+      .app.busy {
+        cursor: progress;
+      }
+      .app.busy button,
+      .app.busy input,
+      .app.busy select,
+      .app.busy textarea {
+        pointer-events: none;
+      }
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 28px;
+        padding: 9px 11px;
+        border-radius: 10px;
+        background: #eef4fe;
+        color: #2f6fed;
+        font-weight: 600;
+      }
+      .status.error {
+        background: #fdecec;
+        color: #c23b3b;
+      }
+      .status.success {
+        background: #eaf6ef;
+        color: #1a7f4b;
+      }
+      /* トースト通知: 画面上部中央にポップアップし、時間が経つと自動で消える。 */
+      .toasts {
+        position: fixed;
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: min(92vw, 420px);
+        pointer-events: none;
+      }
+      .toast {
+        pointer-events: auto;
+        padding: 11px 14px;
+        border-radius: 10px;
+        background: #2f6fed;
+        color: #fff;
+        font-weight: 600;
+        line-height: 1.5;
+        box-shadow: 0 10px 26px rgba(20, 40, 80, .24);
+        opacity: 0;
+        transform: translateY(-8px);
+        transition: opacity .2s ease, transform .2s ease;
+        cursor: pointer;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .toast.success {
+        background: #1a7f4b;
+      }
+      .toast.error {
+        background: #c23b3b;
+      }
+      .target-month {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        width: fit-content;
+        min-height: 28px;
+        padding: 5px 10px;
+        border-radius: 9px;
+        background: #eef3fd;
+        color: #2f6fed;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .target-month input {
+        width: auto;
+        min-width: 148px;
+        min-height: 34px;
+        border-color: #cfdcf3;
+        background: #fff;
+        color: #1a2233;
+        font-weight: 600;
+      }
+      .target-note {
+        margin: 0;
+        color: #5a6b82;
+        font-weight: 500;
+        line-height: 1.55;
+      }
+      .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #a9c6f6;
+        border-top-color: #2f6fed;
+        border-radius: 50%;
+        animation: spin .8s linear infinite;
+      }
+      .busy-overlay {
+        position: sticky;
+        top: 8px;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: #2f6fed;
+        color: #fff;
+        box-shadow: 0 10px 24px rgba(47, 111, 237, .24);
+        font-weight: 600;
+      }
+      .busy-overlay .spinner {
+        border-color: rgba(255, 255, 255, .48);
+        border-top-color: #fff;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .preview {
+        overflow: auto;
+        border: 1px solid #e7edf5;
+        border-radius: 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 620px;
+      }
+      th,
+      td {
+        padding: 9px 11px;
+        border-bottom: 1px solid #eef2f7;
+        text-align: left;
+        font-size: 13.5px;
+      }
+      th {
+        background: #f6f8fc;
+        color: #5a6b82;
+        font-weight: 600;
+      }
+      .draft {
+        display: grid;
+        gap: 6px;
+        padding: 12px;
+        border: 1px solid #e7edf5;
+        border-radius: 12px;
+        background: #fafbfd;
+      }
+      @media (max-width: 760px) {
+        .app {
+          padding: 10px;
+        }
+        .grid,
+        .fields {
+          grid-template-columns: 1fr;
+        }
+        .actions {
+          display: grid;
+        }
+        button {
+          width: 100%;
+        }
+        /* プレビュー: スマホでは横スクロールを避け、1日=1カードの縦積み表示にする */
+        .preview table {
+          min-width: 0;
+        }
+        .preview thead {
+          display: none;
+        }
+        .preview tr {
+          display: block;
+          border: 1px solid #dbe7f1;
+          border-radius: 10px;
+          margin-bottom: 8px;
+          padding: 4px 0;
+        }
+        .preview td {
+          display: flex;
+          justify-content: space-between;
+          gap: 12px;
+          border: 0;
+          padding: 6px 12px;
+          text-align: right;
+        }
+        .preview td::before {
+          content: attr(data-label);
+          font-weight: 700;
+          color: #526176;
+          text-align: left;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app" id="app"></main>
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+    <script>
+      const initial = <?!= bootstrapJson ?> || {};
+      const fallbackMonth = new Date().toISOString().slice(0, 7);
+      const state = {
+        user: initial.user || { email: '', displayName: '', recipient: '', ccRecipients: [], recipientName: '', commuteRoute: '', commuteCost: '' },
+        settings: initial.settings || {},
+        attendance: initial.attendance || { days: [], reports: [], gmailDrafts: [], monthlyConfirmation: {} },
+        month: initial.month || fallbackMonth,
+        today: initial.todayDay
+          ? {
+              date: initial.todayDay.workDate || initial.today || '',
+              category: initial.todayDay.category || '①',
+              startTime: initial.todayDay.startTime || '',
+              endTime: initial.todayDay.endTime || '',
+              breakMinutes: initial.todayDay.breakMinutes != null ? initial.todayDay.breakMinutes : 60,
+              note: initial.todayDay.note || '',
+            }
+          : {
+              date: initial.today || '',
+              category: '①',
+              startTime: '09:00',
+              endTime: '17:40',
+              breakMinutes: 60,
+              note: '',
+            },
+        mode: 'salesOnly',
+        previewTarget: 'sales',
+        testSend: false,
+        gmailBodyCustomized: false,
+        gmailBody: defaultBody(initial.month || fallbackMonth, initial.user),
+        previewRows: [],
+        previewExists: null,
+        previewLoadedTarget: '',
+        previewLoadedMonth: '',
+        previewHidden: false,
+        templateFiles: [],
+        templatePickerTarget: '',
+        busy: false,
+        busyMessage: '',
+      };
+
+      const app = document.getElementById('app');
+
+      // 通知はトースト(上部中央のポップアップ)で表示し、一定時間で自動的に消える。
+      // クリックで即座に閉じられる。error は少し長め、それ以外は短めに表示する。
+      function notify(message, type = '') {
+        if (!message) return;
+        const container = document.getElementById('toasts');
+        if (!container) return;
+        const el = document.createElement('div');
+        el.className = 'toast' + (type ? ' ' + type : '');
+        el.textContent = message;
+        let removed = false;
+        const remove = () => {
+          if (removed) return;
+          removed = true;
+          el.classList.remove('show');
+          setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 220);
+        };
+        el.addEventListener('click', remove);
+        container.appendChild(el);
+        requestAnimationFrame(() => el.classList.add('show'));
+        setTimeout(remove, type === 'error' ? 6000 : 3500);
+      }
+
+      function defaultBody(month, user) {
+        const [year, m] = month.split('-').map(Number);
+        const u = user || state.user || {};
+        const recipientName = u.recipientName || 'ご担当者';
+        const senderName = u.displayName || '担当者';
+        const commuteRoute = u.commuteRoute || '';
+        const commuteCost = u.commuteCost || '';
+        return `${recipientName}
+
+お疲れ様です。${senderName}です。
+
+${year}年${m}月の作業報告書を添付しました。交通費は、下記の通りです。
+ご確認のほど、よろしくお願いいたします。
+
+経路：${commuteRoute}
+交通費： ${commuteCost}`;
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+      }
+
+      function templatePickerMarkup() {
+        if (!state.templatePickerTarget) return '';
+        const files = state.templateFiles || [];
+        const title = state.templatePickerTarget === 'salesTemplateId' ? '営業用テンプレートを選択' : '客先用テンプレートを選択';
+        const list = files.length
+          ? files.map((file) => `<button type="button" class="file-option" data-action="chooseTemplateFile" data-template-id="${escapeHtml(file.id)}">${escapeHtml(file.name)}</button>`).join('')
+          : '<p class="picker-empty">Excel形式の候補が見つかりませんでした。</p>';
+        return `<div class="picker-panel" role="dialog" aria-label="${escapeHtml(title)}">
+          <div class="picker-header"><strong>${escapeHtml(title)}</strong><button type="button" class="secondary" data-action="closeTemplatePicker">閉じる</button></div>
+          <div class="picker-list">${list}</div>
+        </div>`;
+      }
+
+      function timeOptions(selected) {
+        const values = [];
+        for (let h = 0; h < 24; h += 1) {
+          for (const m of ['00', '10', '20', '30', '40', '50']) values.push(`${String(h).padStart(2, '0')}:${m}`);
+        }
+        return values.map((value) => `<option value="${value}" ${value === selected ? 'selected' : ''}>${value}</option>`).join('');
+      }
+
+      function breakOptions(selected) {
+        return [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 120].map((value) => `<option value="${value}" ${Number(selected) === value ? 'selected' : ''}>${value}分</option>`).join('');
+      }
+
+      function currentTimeValue() {
+        // 現在時刻を次の10分単位へ切り上げ、時刻selectの選択肢(00/10/.../50)に合わせる。
+        const now = new Date();
+        const extra = (10 - (now.getMinutes() % 10)) % 10;
+        const rounded = new Date(now.getTime() + extra * 60000);
+        return String(rounded.getHours()).padStart(2, '0') + ':' + String(rounded.getMinutes()).padStart(2, '0');
+      }
+
+      function formatMonthLabel(month) {
+        const [year, m] = String(month || '').split('-').map(Number);
+        if (!year || !m) return '対象年月未選択';
+        return `${year}年${m}月`;
+      }
+
+      function selectedDay() {
+        // state.today は初期表示(bootstrap)・日付変更(dayState)ともサーバの当日値で埋めているので
+        // これを正とする。古い state.attendance.days を優先するとフォームがプレビュー/Excelとズレる。
+        return state.today;
+      }
+
+      function reports() {
+        return state.attendance.reports || [];
+      }
+
+      function drafts() {
+        return state.attendance.gmailDrafts || [];
+      }
+
+      function completeMonthEnd() {
+        const c = state.attendance.monthlyConfirmation || {};
+        return c.attendanceReviewed && c.reportPreviewReviewed && c.salesAttachmentConfirmed;
+      }
+
+      function modeTargets() {
+        if (state.mode === 'both') return ['sales', 'client'];
+        if (state.mode === 'clientOnly') return ['client'];
+        return ['sales'];
+      }
+
+      function madeTargets() {
+        const have = {};
+        reports().forEach((r) => { if (r.xlsxFileId) have[r.targetType] = true; });
+        return have;
+      }
+
+      // Gmail送付に必要な営業用ファイルが作成済みか(実ファイルが存在するか)。
+      function salesReady() {
+        return Boolean(madeTargets().sales);
+      }
+
+      // 下書きがテスト送信(自分宛て)かどうか。件名の[テスト]接頭 or 宛先=自分で判定。
+      function isTestDraft(draft) {
+        return /^\[テスト\]/.test(draft.subject || '') || (draft.recipient || '') === state.user.email;
+      }
+
+      // 対象のうち「作成済み」と「未作成」を分ける。月次作成は未作成の対象だけを作る。
+      function existingModeTargets() {
+        const have = madeTargets();
+        return modeTargets().filter((t) => have[t]);
+      }
+
+      function missingModeTargets() {
+        const have = madeTargets();
+        return modeTargets().filter((t) => !have[t]);
+      }
+
+      // 未作成の対象が無い(=対象すべて作成済み)ときだけ月次作成を無効化する。
+      function monthlyCreateDisabled() {
+        return missingModeTargets().length === 0;
+      }
+
+      function targetLabel(t) {
+        return t === 'client' ? '客先用' : '営業用';
+      }
+
+      function render(message = '', type = '') {
+        const day = selectedDay();
+        if (!state.gmailBodyCustomized) state.gmailBody = defaultBody(state.month);
+        const targetMonthLabel = formatMonthLabel(state.month);
+        app.className = state.busy ? 'app busy' : 'app';
+        // 通知はトーストで出す。busy 中の再描画(busyMessage)はオーバーレイが担うのでトーストは出さない。
+        if (message && !state.busy) notify(message, type);
+        app.innerHTML = `
+          ${state.busy ? `<div class="busy-overlay" role="status" aria-live="assertive"><span class="spinner" aria-hidden="true"></span><span>${escapeHtml(state.busyMessage || '処理中です...')}</span></div>` : ''}
+          <section class="header">
+            <h1>勤怠管理クラウド</h1>
+            <p>スマホから日次入力、月次作成、Gmail送付まで行えます。ログイン: ${escapeHtml(state.user.email)}</p>
+            <div class="target-month"><span>対象年月</span><input type="month" data-field="month" aria-label="対象年月" value="${escapeHtml(state.month)}" ${state.busy ? 'disabled' : ''}></div>
+          </section>
+
+          <section class="grid">
+            <article class="card full">
+              <h2><i class="ti ti-settings" aria-hidden="true"></i>初期設定</h2>
+              <p>Driveから「選択」でExcelテンプレートを選ぶか、ファイルIDを直接設定してください。</p>
+              <div class="fields">
+                <label>保存フォルダ名<input data-field="rootFolderName" value="${escapeHtml(state.settings.rootFolderName || '勤怠管理')}"></label>
+                <label>営業用テンプレートID<span class="input-with-button"><input data-field="salesTemplateId" value="${escapeHtml(state.settings.salesTemplateId || '')}"><button type="button" class="secondary compact" data-action="openTemplatePicker" data-template-target="salesTemplateId" ${state.busy ? 'disabled' : ''}>選択</button></span></label>
+                <label>客先用テンプレートID<span class="input-with-button"><input data-field="clientTemplateId" value="${escapeHtml(state.settings.clientTemplateId || '')}"><button type="button" class="secondary compact" data-action="openTemplatePicker" data-template-target="clientTemplateId" ${state.busy ? 'disabled' : ''}>選択</button></span></label>
+              </div>
+              ${templatePickerMarkup()}
+              <p class="target-note">テンプレートを選ぶ・保存フォルダ名を変更すると自動で保存されます。</p>
+            </article>
+
+            <article class="card">
+              <h2><i class="ti ti-clock-edit" aria-hidden="true"></i>今日の勤怠入力</h2>
+              <div class="fields fields-2">
+                <label>日付<input type="date" data-field="date" value="${escapeHtml(state.today.date)}"></label>
+                <label>区分<select data-field="category">${['①', '②', '③', '休日', '休暇'].map((v) => `<option ${v === (day.category || '①') ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+              </div>
+              <div class="fields">
+                <label>出勤<select data-field="startTime">${timeOptions(day.startTime || state.today.startTime)}</select></label>
+                <label>退勤<select data-field="endTime">${timeOptions(day.endTime || state.today.endTime)}</select></label>
+                <label>休憩<select data-field="breakMinutes">${breakOptions(day.breakMinutes ?? state.today.breakMinutes)}</select></label>
+              </div>
+              <label>備考<textarea data-field="note">${escapeHtml(day.note || '')}</textarea></label>
+              <div class="actions">
+                <button class="secondary" data-action="punchStart" ${state.busy ? 'disabled' : ''}><i class="ti ti-login-2" aria-hidden="true"></i>出勤を反映</button>
+                <button class="secondary" data-action="punchEnd" ${state.busy ? 'disabled' : ''}><i class="ti ti-logout-2" aria-hidden="true"></i>退勤を反映</button>
+                <button data-action="reflectToday" ${state.busy ? 'disabled' : ''}><i class="ti ti-file-export" aria-hidden="true"></i>今日の内容をファイルに反映</button>
+              </div>
+            </article>
+
+            <article class="card">
+              <h2><i class="ti ti-file-spreadsheet" aria-hidden="true"></i>月次作成</h2>
+              <div class="fields fields-1">
+                <label>対象<select data-field="mode">
+                  <option value="salesOnly" ${state.mode === 'salesOnly' ? 'selected' : ''}>営業用のみ</option>
+                  <option value="clientOnly" ${state.mode === 'clientOnly' ? 'selected' : ''}>客先用のみ</option>
+                  <option value="both" ${state.mode === 'both' ? 'selected' : ''}>両方</option>
+                </select></label>
+              </div>
+              <div class="actions">
+                <button data-action="generateReports" ${monthlyCreateDisabled() || state.busy ? 'disabled' : ''}><i class="ti ti-file-plus" aria-hidden="true"></i>${monthlyCreateDisabled() ? '月次作成' : (missingModeTargets().map(targetLabel).join('・') + 'を作成')}</button>
+              </div>
+              ${monthlyCreateDisabled()
+                ? `<p class="target-note">${escapeHtml(existingModeTargets().map(targetLabel).join('・'))}は作成済みのため、月次作成はできません。日々の更新は「今日の内容をファイルに反映」を使ってください。</p>`
+                : (existingModeTargets().length
+                  ? `<p class="target-note">${escapeHtml(existingModeTargets().map(targetLabel).join('・'))}は作成済みです。未作成の${escapeHtml(missingModeTargets().map(targetLabel).join('・'))}のみ作成します。</p>`
+                  : '<p>作成済みファイルがある対象は、月次作成を実行できません。</p>')}
+            </article>
+
+            <article class="card full">
+              <h2><i class="ti ti-table" aria-hidden="true"></i>プレビュー</h2>
+              <div class="fields">
+                <label>対象<select data-field="previewTarget">
+                  <option value="sales" ${state.previewTarget === 'sales' ? 'selected' : ''}>営業用</option>
+                  <option value="client" ${state.previewTarget === 'client' ? 'selected' : ''}>客先用</option>
+                </select></label>
+              </div>
+              <div class="actions">
+                <button class="secondary" data-action="loadPreview" ${state.busy ? 'disabled' : ''}><i class="ti ti-eye" aria-hidden="true"></i>内容を表示</button>
+                ${(state.previewExists !== false && (state.previewRows || []).length)
+                  ? `<button class="secondary" data-action="togglePreview" ${state.busy ? 'disabled' : ''}><i class="ti ti-eye-off" aria-hidden="true"></i>${state.previewHidden ? '内容を再表示' : '内容を隠す'}</button>`
+                  : ''}
+              </div>
+              ${previewTable()}
+            </article>
+
+            <article class="card">
+              <h2><i class="ti ti-checklist" aria-hidden="true"></i>月末確認</h2>
+              <p class="target-note">対象: ${escapeHtml(targetMonthLabel)}分</p>
+              <p>${completeMonthEnd() ? '月末確認済みです。' : '下記3項目を確認します。'}</p>
+              <ul>
+                <li>平日の出勤・退勤・休憩を確認済み</li>
+                <li>月次ファイルのプレビューを確認済み</li>
+                <li>Gmail添付は営業用ファイルのみ</li>
+              </ul>
+              <div class="actions">
+                <button data-action="confirmMonth" ${!salesReady() || completeMonthEnd() || state.busy ? 'disabled' : ''}><i class="ti ti-${completeMonthEnd() ? 'circle-check' : 'check'}" aria-hidden="true"></i>${completeMonthEnd() ? '月末確認済み' : '月末確認'}</button>
+                ${completeMonthEnd() ? `<button class="secondary" data-action="clearMonthConfirmation" ${state.busy ? 'disabled' : ''}>クリア</button>` : ''}
+              </div>
+              ${(!salesReady() && !completeMonthEnd()) ? '<p class="target-note">ファイルがないと月末確認ができません。</p>' : ''}
+            </article>
+
+            <article class="card">
+              <h2><i class="ti ti-mail" aria-hidden="true"></i>Gmail送付</h2>
+              <p class="target-note">対象: ${escapeHtml(targetMonthLabel)}分の作業報告書</p>
+              <p class="target-note">これから作る下書きの宛先: ${escapeHtml(state.testSend ? state.user.email : state.user.recipient)}${state.testSend ? '（テスト送信・自分宛て）' : ' / CC: ' + escapeHtml((state.user.ccRecipients || []).join(', '))}</p>
+              <p class="target-note">※実際の送信先は、下に作成された各下書きの「To:」で確認してください。</p>
+              <div style="display:flex;align-items:center;gap:8px;font-weight:700;color:#526176">
+                <input type="checkbox" data-field="testSend" style="width:auto;min-height:0;margin:0" ${state.testSend ? 'checked' : ''} ${state.busy ? 'disabled' : ''}>
+                <span>テスト送信（自分宛て: ${escapeHtml(state.user.email)}）</span>
+              </div>
+              <label>メール本文<textarea data-field="gmailBody">${escapeHtml(state.gmailBody)}</textarea></label>
+              <div class="actions">
+                <button class="secondary" data-action="resetBody" ${state.busy ? 'disabled' : ''}>標準文面に戻す</button>
+                <button data-action="createGmailDraft" ${completeMonthEnd() && salesReady() && !state.busy ? '' : 'disabled'}><i class="ti ti-mail-plus" aria-hidden="true"></i>Gmail下書きを作成</button>
+              </div>
+              ${(salesReady() && !completeMonthEnd()) ? '<p class="target-note">「月末確認」を保存すると下書きを作成できます。</p>' : ''}
+              <div>${drafts().map(draftMarkup).join('') || '<p>下書きはまだありません。</p>'}</div>
+            </article>
+          </section>
+        `;
+      }
+
+      function previewTable() {
+        const rows = state.previewRows || [];
+        // 実ファイルが無い対象は内容を出さず「未作成」を明示する(データ由来の予定値は表示しない)。
+        if (state.previewExists === false) {
+          const label = state.previewLoadedTarget === 'client' ? '客先用' : '営業用';
+          return '<p class="target-note">⚠ ' + escapeHtml(label) + 'の' + escapeHtml(formatMonthLabel(state.previewLoadedMonth))
+            + '分はまだ作成されていません。「月次作成」または「今日の内容をファイルに反映」で作成してください。</p>';
+        }
+        if (!rows.length) return '<p>「内容を表示」を押すとプレビューします。</p>';
+        if (state.previewHidden) return '<p class="target-note">プレビューを隠しています。「内容を再表示」で表示できます。</p>';
+        return `<div class="preview"><table><thead><tr><th>日付</th><th>区分</th><th>出勤</th><th>退勤</th><th>休憩</th><th>備考</th></tr></thead><tbody>${rows.map((row) => `
+          <tr><td data-label="日付">${escapeHtml(row.workDate)}</td><td data-label="区分">${escapeHtml(row.category)}</td><td data-label="出勤">${escapeHtml(row.startTime || '-')}</td><td data-label="退勤">${escapeHtml(row.endTime || '-')}</td><td data-label="休憩">${escapeHtml(row.breakMinutes || 0)}分</td><td data-label="備考">${escapeHtml(row.note || '-')}</td></tr>
+        `).join('')}</tbody></table></div>`;
+      }
+
+      const draftStatusLabel = { draft_ready: '送信可能', sent: '送信済み', missing: '下書きが見つかりません' };
+
+      function draftMarkup(draft) {
+        const canSend = draft.status === 'draft_ready';
+        const test = isTestDraft(draft);
+        return `<div class="draft">
+          <strong>${test ? '🧪 ' : ''}${escapeHtml(draft.subject)}</strong>
+          <span>状態: ${escapeHtml(draftStatusLabel[draft.status] || draft.status)}${test ? '　（テスト送信・自分宛て）' : ''}</span>
+          <span>To: ${escapeHtml(draft.recipient)}${(draft.ccRecipients || []).length ? ' / CC: ' + escapeHtml((draft.ccRecipients || []).join(', ')) : ''}</span>
+          <button class="danger" data-action="sendGmailDraft" data-draft-id="${escapeHtml(draft.draftId)}" ${canSend && !state.busy ? '' : 'disabled'}><i class="ti ti-send" aria-hidden="true"></i>メールを送信</button>
+        </div>`;
+      }
+
+      function collect() {
+        const data = {};
+        document.querySelectorAll('[data-field]').forEach((field) => data[field.dataset.field] = field.value);
+        data.breakMinutes = Number(data.breakMinutes || 60);
+        return data;
+      }
+
+      const actionMessages = {
+        saveSettings: '設定を保存しています...',
+        saveAttendance: '勤怠を保存しています...',
+        reflectToday: '勤怠を保存してExcelを作成しています...',
+        generateReports: '月次ファイルを作成しています...',
+        loadPreview: 'プレビューを読み込んでいます...',
+        confirmMonth: '月末確認しています...',
+        clearMonthConfirmation: '月末確認をクリアしています...',
+        createGmailDraft: 'Gmail下書きを作成しています...',
+        sendGmailDraft: 'メールを送信しています...',
+        monthState: '対象年月を読み込んでいます...',
+        dayState: '選択日の内容を読み込んでいます...',
+        listTemplateFiles: 'DriveのExcelテンプレート候補を読み込んでいます...',
+      };
+
+      // 軽量呼び出し: 全画面オーバーレイ/操作ロックを出さず、完了/失敗をトーストで知らせる。
+      // 設定の自動保存など「待たせない軽い処理」向け(処理中トーストは出さない)。
+      function callQuiet(action, payload, okMessage) {
+        google.script.run
+          .withSuccessHandler((result) => {
+            result = result || {};
+            if (result.settings) state.settings = result.settings;
+            if (result.attendance) state.attendance = result.attendance;
+            notify(okMessage || '保存しました。', 'success');
+          })
+          .withFailureHandler((error) => {
+            notify(error && error.message ? error.message : String(error), 'error');
+          })
+          .api(action, payload);
+      }
+
+      function call(action, payload, okMessage) {
+        if (state.busy) return;
+        state.busy = true;
+        state.busyMessage = actionMessages[action] || '処理中です...';
+        render(state.busyMessage);
+        // 安全ネット: サーバは完了したのに成功/失敗コールバックが発火しない場合でも、
+        // 「作成中…」のまま固まらないよう一定時間で busy を解除して案内する。
+        let settled = false;
+        const clearBusy = () => { state.busy = false; state.busyMessage = ''; };
+        const watchdog = setTimeout(() => {
+          if (settled) return;
+          settled = true;
+          clearBusy();
+          render('サーバー応答の確認がとれませんでした。作成自体は完了している場合があります。画面を再読み込みして結果をご確認ください。', 'error');
+        }, 180000);
+        google.script.run
+          .withSuccessHandler((result) => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(watchdog);
+            clearBusy();
+            try {
+              result = result || {};
+              if (result.settings) state.settings = result.settings;
+              if (result.attendance) state.attendance = result.attendance;
+              if (result.rows) state.previewRows = result.rows;
+              if (typeof result.reportExists === 'boolean') {
+                state.previewExists = result.reportExists;
+                state.previewLoadedTarget = result.previewTarget || state.previewTarget;
+                state.previewLoadedMonth = result.previewMonth || state.month;
+                state.previewHidden = false; // 読み込み直後は表示状態に戻す
+              }
+              if (result.templateFiles) state.templateFiles = result.templateFiles;
+              if (result.day) state.today = { ...state.today, ...result.day, date: result.day.workDate };
+              if (result.monthlyConfirmation) state.attendance.monthlyConfirmation = result.monthlyConfirmation;
+              // 表示メッセージを決める。
+              // - プレビュー未作成(reportExists=false)のときは「読み込みました」ではなく未作成を通知(情報色)。
+              // - notice がある場合は「処理は通ったが要注意」の通知(赤)。
+              let doneMsg = result.notice || okMessage || '完了しました。';
+              let doneType = result.notice ? 'error' : 'success';
+              if (result.reportExists === false) {
+                const lbl = result.previewTarget === 'client' ? '客先用' : '営業用';
+                doneMsg = lbl + 'の' + formatMonthLabel(result.previewMonth || state.month) + '分はまだ作成されていません。';
+                doneType = '';
+              }
+              render(doneMsg, doneType);
+            } catch (error) {
+              // 成功しているが画面更新で失敗した場合でも busy を解除して固まらないようにする。
+              render('完了しましたが画面の更新でエラーが発生しました: ' + (error && error.message ? error.message : error), 'error');
+            }
+          })
+          .withFailureHandler((error) => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(watchdog);
+            clearBusy();
+            render(error && error.message ? error.message : String(error), 'error');
+          })
+          .api(action, payload);
+      }
+
+      app.addEventListener('click', (event) => {
+        const button = event.target.closest('button');
+        if (!button) return;
+        if (state.busy) return;
+        const action = button.dataset.action;
+        const data = collect();
+        state.month = data.month || state.month;
+        state.today = { ...state.today, date: data.date || state.today.date };
+        state.mode = data.mode || state.mode;
+        state.previewTarget = data.previewTarget || state.previewTarget;
+        state.gmailBody = data.gmailBody || state.gmailBody;
+        if (action === 'resetBody') {
+          state.gmailBodyCustomized = false;
+          state.gmailBody = defaultBody(state.month);
+          render('メール本文を標準文面に戻しました。');
+        }
+        if (action === 'openTemplatePicker') {
+          state.templatePickerTarget = button.dataset.templateTarget || '';
+          call('listTemplateFiles', {}, 'Excelテンプレート候補を読み込みました。');
+          return;
+        }
+        if (action === 'closeTemplatePicker') {
+          state.templatePickerTarget = '';
+          render('テンプレート選択を閉じました。');
+          return;
+        }
+        if (action === 'chooseTemplateFile') {
+          const target = state.templatePickerTarget;
+          if (target) state.settings[target] = button.dataset.templateId || '';
+          state.templatePickerTarget = '';
+          // 選択を反映して再描画し、保存は軽量(全画面ロックなし)で行う。
+          render('テンプレートを選択しました。');
+          callQuiet('saveSettings', {
+            rootFolderName: state.settings.rootFolderName || '勤怠管理',
+            salesTemplateId: state.settings.salesTemplateId || '',
+            clientTemplateId: state.settings.clientTemplateId || '',
+            month: state.month,
+          }, 'テンプレートを保存しました。');
+          return;
+        }
+        if (action === 'punchStart' || action === 'punchEnd') {
+          // 現在時刻を出勤/退勤欄に打刻(クライアント側のみ)。保存は「今日の内容をファイルに反映」で行う。
+          const field = action === 'punchStart' ? 'startTime' : 'endTime';
+          const sel = app.querySelector('[data-field="' + field + '"]');
+          if (sel) {
+            const t = currentTimeValue();
+            if (![].some.call(sel.options, (o) => o.value === t)) sel.add(new Option(t, t));
+            sel.value = t;
+          }
+          notify((action === 'punchStart' ? '出勤時刻' : '退勤時刻') + 'を打刻しました。「今日の内容をファイルに反映」で保存します。', 'success');
+          return;
+        }
+        if (action === 'saveAttendance') call('saveAttendance', data, '勤怠を保存しました。');
+        if (action === 'reflectToday') {
+          // ファイルが未作成の対象があるときは、黙って新規作成せず必ずユーザーに確認する。
+          // (既存ファイルへの反映=更新のときは確認しない。)「キャンセル」なら何もしない。
+          const missing = missingModeTargets();
+          if (missing.length) {
+            const names = missing.map(targetLabel).join('・');
+            const ok = confirm(names + 'のファイルがまだありません。\n'
+              + '今日の内容を保存して、' + names + 'のファイルを新しく作成しますか？\n\n'
+              + '「キャンセル」を選ぶと、何もせず中止します（勤怠も保存しません）。');
+            if (!ok) {
+              render(names + 'のファイル作成を中止しました。', '');
+              return;
+            }
+          }
+          call('reflectToday', data, '勤怠と帳票を保存しました。');
+        }
+        if (action === 'generateReports') {
+          // 未作成の対象だけを作る(営業用は在るが客先用が無い等のパターンに対応)。
+          const targets = missingModeTargets();
+          if (targets.length) call('generateReports', { month: state.month, targetTypes: targets, includeSavedAttendance: true }, targets.map(targetLabel).join('・') + 'を作成しました。');
+        }
+        if (action === 'loadPreview') call('loadPreview', { month: state.month, targetType: state.previewTarget }, 'プレビューを読み込みました。');
+        if (action === 'togglePreview') {
+          state.previewHidden = !state.previewHidden;
+          render();
+        }
+        if (action === 'confirmMonth') call('confirmMonth', { month: state.month }, '月末確認しました。');
+        if (action === 'clearMonthConfirmation') call('clearMonthConfirmation', { month: state.month }, '月末確認をクリアしました。');
+        if (action === 'createGmailDraft') call('createGmailDraft', { month: state.month, bodyText: state.gmailBody, testMode: state.testSend }, state.testSend ? 'テスト用（自分宛て）のGmail下書きを作成しました。' : 'Gmail下書きを作成しました。');
+        if (action === 'sendGmailDraft') {
+          const d = drafts().find((x) => x.draftId === button.dataset.draftId) || {};
+          const cc = (d.ccRecipients || []).join(', ');
+          const msg = '以下の内容で実際に送信します。送信後は取り消せません。\n\n'
+            + (isTestDraft(d) ? '【テスト送信・自分宛て】\n' : '【本番送信】\n')
+            + '宛先: ' + (d.recipient || '') + '\n'
+            + 'CC: ' + (cc || '（無し）') + '\n'
+            + '件名: ' + (d.subject || '') + '\n\n送信しますか？';
+          if (confirm(msg)) {
+            call('sendGmailDraft', { draftId: button.dataset.draftId }, 'メールを送信しました。');
+          }
+        }
+      });
+
+      app.addEventListener('change', (event) => {
+        const field = event.target.closest('[data-field]');
+        if (!field) return;
+        if (field.dataset.field === 'month') {
+          state.month = field.value;
+          state.gmailBodyCustomized = false;
+          call('monthState', { month: state.month }, '年月を変更しました。');
+        }
+        // 日付を変えたら、その日の勤怠(=営業帳票に反映される値)をサーバから直接取得してフォームへ入れる。
+        // クライアントの古いキャッシュに依存せず、プレビュー/Excelと必ず一致させる。
+        if (field.dataset.field === 'date') {
+          if (field.value) call('dayState', { date: field.value }, field.value + ' の内容を読み込みました。');
+        }
+        if (field.dataset.field === 'gmailBody') {
+          state.gmailBodyCustomized = true;
+          state.gmailBody = field.value;
+        }
+        // テスト送信(自分宛て)チェック。宛先表示を切り替えるため再描画する。
+        if (field.dataset.field === 'testSend') {
+          state.testSend = field.checked;
+          render(state.testSend ? 'テスト送信（自分宛て）に切り替えました。' : '本番の宛先に戻しました。');
+        }
+        // 対象モードを切り替えたら、作成済み判定に応じて月次作成ボタンの有効/無効を即反映する。
+        if (field.dataset.field === 'mode') {
+          state.mode = field.value;
+          render();
+        }
+        // 初期設定フィールドは手動編集(確定=blur)でも自動保存する。全画面ロックは出さず軽量保存。
+        if (field.dataset.field === 'rootFolderName' || field.dataset.field === 'salesTemplateId' || field.dataset.field === 'clientTemplateId') {
+          state.settings[field.dataset.field] = field.value;
+          callQuiet('saveSettings', {
+            rootFolderName: state.settings.rootFolderName || '勤怠管理',
+            salesTemplateId: state.settings.salesTemplateId || '',
+            clientTemplateId: state.settings.clientTemplateId || '',
+            month: state.month,
+          }, '設定を保存しました。');
+        }
+      });
+
+      try {
+        render();
+      } catch (error) {
+        app.innerHTML = `
+          <section class="header">
+            <h1>勤怠管理クラウド</h1>
+            <div class="status error" aria-live="polite">画面表示でエラーが発生しました: ${escapeHtml(error && error.message ? error.message : String(error))}</div>
+          </section>
+        `;
+        throw error;
+      }
+    </script>
+  </body>
+</html>

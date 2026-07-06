@@ -1,0 +1,6 @@
+# 実際の個人情報を入れる設定ファイル（絶対にコミットしない）
+config.local.gs
+
+# エディタ/OS
+.DS_Store
+Thumbs.db
